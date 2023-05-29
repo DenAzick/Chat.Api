@@ -1,14 +1,10 @@
-﻿using Identity.Core.Context;
-using Identity.Core.Managers;
+﻿using Identity.Core.Managers;
 using Identity.Core.Options;
 using Identity.Core.Providers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-
 namespace Identity.Core.Extentions;
 
 public static class ServiceCollectionExtentions
@@ -49,13 +45,6 @@ public static class ServiceCollectionExtentions
         services.AddScoped<UserProvider>();
     }
 
-    public static void MigrateIdentityDb(this WebApplication app)
-    {
-        if (app.Services.GetService<IdentityDbContext>() != null)
-        {
-            var identityDb = app.Services.GetRequiredService<IdentityDbContext>();
-            identityDb.Database.Migrate();
-        }
-    }
+   
 
 }

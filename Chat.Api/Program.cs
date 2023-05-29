@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Identity.Core.Middlewares;
 using Chat.Core.Context;
+using Chat.Core.Managers;
+using Chat.Api.Extentions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +38,8 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimesBehavior", true);
+
 builder.Services.AddDbContext<ChatDbContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("ChatDb"));
@@ -48,7 +52,7 @@ builder.Services.AddDbContext<IdentityDbContext>(options =>
 
 builder.Services.AddIdentity(builder.Configuration);
 
-//builder.Services.AddScoped<Conversation>
+builder.Services.AddScoped<ConversationManager>();
 
 var app = builder.Build();
 
@@ -62,10 +66,10 @@ app.UseCors(cors =>
     cors.AllowAnyHeader()
         .AllowAnyMethod()
         .AllowAnyOrigin();
-}); 
+});
 
-
-//app.MigrateIdentityDb(this WebApplication app);
+app.MigrateChatDbContext();
+app.MigrateIdentityDb();
 
 app.UseHttpsRedirection();
 
