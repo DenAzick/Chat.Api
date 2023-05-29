@@ -1,4 +1,5 @@
-﻿using Identity.Core.Managers;
+﻿using Identity.Core.Context;
+using Identity.Core.Managers;
 using Identity.Core.Options;
 using Identity.Core.Providers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -50,7 +51,11 @@ public static class ServiceCollectionExtentions
 
     public static void MigrateIdentityDb(this WebApplication app)
     {
-
+        if (app.Services.GetService<IdentityDbContext>() != null)
+        {
+            var identityDb = app.Services.GetRequiredService<IdentityDbContext>();
+            identityDb.Database.Migrate();
+        }
     }
 
 }

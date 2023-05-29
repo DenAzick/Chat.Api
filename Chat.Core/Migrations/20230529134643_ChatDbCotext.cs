@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Chat.Core.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class ChatDbCotext : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
