@@ -61,4 +61,17 @@ public class AccauntController : ControllerBase
         return Ok(new UserModel(user));
     }
 
+    [HttpGet("{username}")]
+    [Authorize]
+    public async Task<IActionResult> GetUser(string username)
+    {
+       var user = await _userManager.GetUser(username);
+
+        if (user == null)
+        {
+            return NotFound();
+        }
+        return Ok(new UserModel(user));
+    }
+
 }

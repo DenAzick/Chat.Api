@@ -67,4 +67,9 @@ public class UserManager
     {
         return await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
     }
+
+    public async Task<User> GetUser(string username)
+    {
+        return await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+    }
 }
